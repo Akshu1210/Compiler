@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Code Compiler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>CodeCompiler</span>
+            </div>
+            <div class="nav-items">
+                <select id="language-select">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                </select>
+                <select id="theme-select">
+                    <option value="monokai">Monokai</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="github">GitHub</option>
+                    <option value="vs-dark">VS Dark</option>
+                </select>
+                <button id="settings-btn"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="workspace">
+            <div class="sidebar">
+                <div class="file-explorer">
+                    <h3><i class="fas fa-folder-open"></i> Files</h3>
+                    <ul id="file-list">
+                        <li class="active"><i class="fas fa-file-code"></i> main.py</li>
+                        <li><i class="fas fa-file-code"></i> input.txt</li>
+                    </ul>
+                </div>
+                <div class="examples-section">
+                    <h3><i class="fas fa-lightbulb"></i> Examples</h3>
+                    <ul>
+                        <li onclick="loadExample('basic')">Basic Example</li>
+                        <li onclick="loadExample('advanced')">Advanced Example</li>
+                        <li onclick="loadExample('algorithms')">Algorithms</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="editor-container">
+                    <div class="code-section">
+                        <div class="editor-header">
+                            <h2>Code Editor</h2>
+                            <div class="editor-controls">
+                                <button id="format-btn" title="Format Code">
+                                    <i class="fas fa-align-left"></i>
+                                </button>
+                                <button id="copy-btn" title="Copy Code">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button id="download-btn" title="Download Code">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="code-editor">def main():
+    print("Hello, World!")
+
+if __name__ == "__main__":
+    main()</textarea>
+                    </div>
+                    
+                    <div class="output-section">
+                        <div class="output-header">
+                            <h2>Output</h2>
+                            <div class="output-controls">
+                                <button id="clear-btn" title="Clear Output">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button id="copy-output-btn" title="Copy Output">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="output-area"></div>
+                    </div>
+                </div>
+
+                <div class="bottom-panel">
+                    <div class="input-section">
+                        <h3>Input</h3>
+                        <textarea id="input-area" placeholder="Enter program input here..."></textarea>
+                    </div>
+                    <div class="controls">
+                        <button id="run-btn">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                        <button id="debug-btn">
+                            <i class="fas fa-bug"></i> Debug
+                        </button>
+                        <div class="execution-stats">
+                            <span id="time-stat">Time: 0.00s</span>
+                            <span id="memory-stat">Memory: 0MB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <div class="settings-group">
+                <label>Font Size</label>
+                <input type="range" id="font-size" min="12" max="24" value="14">
+            </div>
+            <div class="settings-group">
+                <label>Tab Size</label>
+                <input type="number" id="tab-size" min="2" max="8" value="4">
+            </div>
+            <div class="settings-group">
+                <label>Auto Save</label>
+                <input type="checkbox" id="auto-save" checked>
+            </div>
+            <button id="close-settings">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
